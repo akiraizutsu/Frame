@@ -68,8 +68,8 @@ function generateMonogram(config: LogoConfig): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="auto" style="max-width:200px">
   <defs>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@700');
-      .monogram-text { font-family: 'Ubuntu', sans-serif; font-weight: 700; }
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@700');
+      .monogram-text { font-family: 'Outfit', sans-serif; font-weight: 700; }
     </style>
   </defs>
   ${container}
@@ -183,8 +183,8 @@ function generateWordmark(config: LogoConfig): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 200" width="100%" height="auto" style="max-width:240px">
   <defs>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@700');
-      .wordmark { font-family: 'Ubuntu', sans-serif; font-weight: 700; }
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@700');
+      .wordmark { font-family: 'Outfit', sans-serif; font-weight: 700; }
     </style>
   </defs>
   ${accent}

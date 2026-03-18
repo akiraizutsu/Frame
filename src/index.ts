@@ -6,6 +6,7 @@ import { normalizeInput } from './lib/normalizeInput.js';
 import { buildStoryModel } from './lib/buildStoryModel.js';
 import { buildGuidelineModel } from './lib/buildGuidelineModel.js';
 import { renderTemplate, writeOutput, copyAssets } from './lib/render.js';
+import { resolveTheme } from './lib/resolveTheme.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -68,8 +69,14 @@ function main(): void {
     console.log('');
   }
 
-  const storyModel = buildStoryModel(data);
-  const guidelineModel = buildGuidelineModel(data);
+  const theme = resolveTheme(
+    data.category, data.brand_keywords, data.visual_keywords,
+    data.personality, data.tone_of_voice,
+  );
+  console.log(`🎨 Theme: ${theme.hueName} (hue:${theme.hue}) — ${theme.fontHeading} + ${theme.fontBody}\n`);
+
+  const storyModel = buildStoryModel(data, theme);
+  const guidelineModel = buildGuidelineModel(data, theme);
 
   const storyHtml = renderTemplate('brand-story.njk', { m: storyModel });
   const guidelineHtml = renderTemplate('brand-guidelines.njk', { m: guidelineModel });
