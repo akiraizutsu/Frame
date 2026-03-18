@@ -48,10 +48,23 @@ export interface NormalizationResult {
   warnings: NormalizationWarning[];
 }
 
+/** Resolved theme for document rendering */
+export interface ThemeConfig {
+  hue: number;
+  hueName: string;
+  fontHeading: string;
+  fontBody: string;
+  fontMono: string;
+  googleFontsUrl: string;
+  fontRationale: string;
+  colorRationale: string;
+}
+
 /** Story document view model */
 export interface StoryModel {
   brand_name: string;
   category: string;
+  theme: ThemeConfig;
   purpose_block: string;
   audience: string;
   audience_before_state: string;
@@ -75,6 +88,7 @@ export interface StoryModel {
 export interface GuidelineModel {
   brand_name: string;
   category: string;
+  theme: ThemeConfig;
   purpose_block: string;
   personality: string;
   tone_of_voice: string;

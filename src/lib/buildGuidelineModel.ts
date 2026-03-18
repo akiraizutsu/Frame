@@ -1,16 +1,18 @@
-import type { NormalizedInput, GuidelineModel } from './types.js';
+import type { NormalizedInput, GuidelineModel, ThemeConfig } from './types.js';
 import { generateLogos } from './generateLogo.js';
 
-export function buildGuidelineModel(input: NormalizedInput): GuidelineModel {
+export function buildGuidelineModel(input: NormalizedInput, theme: ThemeConfig): GuidelineModel {
   const logos = generateLogos(
     input.brand_name,
     input.brand_keywords,
     input.visual_keywords,
+    theme.hue,
   );
 
   return {
     brand_name: input.brand_name,
     category: input.category,
+    theme,
     purpose_block: input.purpose_block,
     personality: input.personality,
     tone_of_voice: input.tone_of_voice,

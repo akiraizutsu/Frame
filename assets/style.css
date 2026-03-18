@@ -10,12 +10,24 @@
 /* ===== Typography ===== */
 
 body {
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   letter-spacing: 0.02em;
   line-height: 1.8;
 }
 
-h1, h2, h3 {
+h1, h2, h3, .section-heading {
+  font-family: 'Outfit', 'Noto Sans JP', system-ui, sans-serif;
   letter-spacing: 0.04em;
+}
+
+/* Ensure English text in headings uses Outfit's geometric style */
+h1 { font-weight: 700; }
+h2 { font-weight: 600; }
+h3 { font-weight: 500; }
+
+/* Mono elements: JSON preview, code blocks */
+pre, code, .font-mono {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
 }
 
 /* ===== Transitions ===== */

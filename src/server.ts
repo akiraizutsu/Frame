@@ -6,6 +6,7 @@ import { normalizeInput } from './lib/normalizeInput.js';
 import { buildStoryModel } from './lib/buildStoryModel.js';
 import { buildGuidelineModel } from './lib/buildGuidelineModel.js';
 import { renderTemplate, writeOutput, copyAssets } from './lib/render.js';
+import { resolveTheme } from './lib/resolveTheme.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,8 +48,13 @@ function handleGenerate(req: http.IncomingMessage, res: http.ServerResponse): vo
 
       const outputDir = path.join(PROJECT_ROOT, 'dist');
 
-      const storyModel = buildStoryModel(data);
-      const guidelineModel = buildGuidelineModel(data);
+      const theme = resolveTheme(
+        data.category, data.brand_keywords, data.visual_keywords,
+        data.personality, data.tone_of_voice,
+      );
+
+      const storyModel = buildStoryModel(data, theme);
+      const guidelineModel = buildGuidelineModel(data, theme);
 
       const storyHtml = renderTemplate('brand-story.njk', { m: storyModel });
       const guidelineHtml = renderTemplate('brand-guidelines.njk', { m: guidelineModel });
@@ -112,10 +118,18 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // Serve dist files
+  // Serve dist files (with .html fallback)
   if (pathname.startsWith('/dist/')) {
-    serveStaticFile(res, path.join(PROJECT_ROOT, pathname.slice(1)));
-    return;
+    const distPath = path.join(PROJECT_ROOT, pathname.slice(1));
+    if (fs.existsSync(distPath)) {
+      serveStaticFile(res, distPath);
+      return;
+    }
+    const distPathHtml = distPath + '.html';
+    if (!path.extname(distPath) && fs.existsSync(distPathHtml)) {
+      serveStaticFile(res, distPathHtml);
+      return;
+    }
   }
 
   // Serve assets
@@ -124,10 +138,27 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // Fallback: try dist
+  // Fallback: try dist (with and without .html extension)
   const distFile = path.join(PROJECT_ROOT, 'dist', pathname.slice(1));
   if (fs.existsSync(distFile)) {
     serveStaticFile(res, distFile);
+    return;
+  }
+  const distFileHtml = distFile + '.html';
+  if (!path.extname(distFile) && fs.existsSync(distFileHtml)) {
+    serveStaticFile(res, distFileHtml);
+    return;
+  }
+
+  // Also try under /dist/ prefix without it
+  const distPrefixed = path.join(PROJECT_ROOT, pathname.slice(1));
+  if (fs.existsSync(distPrefixed)) {
+    serveStaticFile(res, distPrefixed);
+    return;
+  }
+  const distPrefixedHtml = distPrefixed + '.html';
+  if (!path.extname(distPrefixed) && fs.existsSync(distPrefixedHtml)) {
+    serveStaticFile(res, distPrefixedHtml);
     return;
   }
 

@@ -1,6 +1,6 @@
-import type { NormalizedInput, StoryModel, ProofType, Claim } from './types.js';
+import type { NormalizedInput, StoryModel, ProofType, Claim, ThemeConfig } from './types.js';
 
-export function buildStoryModel(input: NormalizedInput): StoryModel {
+export function buildStoryModel(input: NormalizedInput, theme: ThemeConfig): StoryModel {
   const claimsByType: Record<ProofType, Claim[]> = {
     FACT: [],
     CONSTRAINT: [],
@@ -18,6 +18,7 @@ export function buildStoryModel(input: NormalizedInput): StoryModel {
   return {
     brand_name: input.brand_name,
     category: input.category,
+    theme,
     purpose_block: input.purpose_block,
     audience: input.audience,
     audience_before_state: input.audience_before_state,
