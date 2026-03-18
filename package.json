@@ -1,0 +1,30 @@
+{
+  "name": "brandframe",
+  "version": "1.0.0",
+  "description": "Brand strategy document generator — structured, explainable, reusable",
+  "type": "module",
+  "main": "dist-build/index.js",
+  "scripts": {
+    "build:ts": "tsc",
+    "build": "tsc && node dist-build/index.js",
+    "generate": "tsc && node dist-build/index.js",
+    "start": "tsc && node dist-build/server.js"
+  },
+  "keywords": [
+    "brand",
+    "strategy",
+    "document",
+    "generator"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.11.0",
+    "@types/nunjucks": "^3.2.6",
+    "typescript": "^5.4.0"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "nunjucks": "^3.2.4"
+  }
+}
