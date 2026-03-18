@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ m.brand_name }} — Brand Guidelines</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        fontFamily: {
+          sans: ['"Zen Kaku Gothic New"', 'Ubuntu', 'system-ui', 'sans-serif'],
+          mono: ['Ubuntu Mono', 'ui-monospace', 'monospace'],
+        },
+        extend: {
+          letterSpacing: { brand: '0.08em' },
+          colors: {
+            primary: {
+              50:  'hsl(var(--hue) 90% 96%)',
+              100: 'hsl(var(--hue) 85% 90%)',
+              200: 'hsl(var(--hue) 80% 80%)',
+              300: 'hsl(var(--hue) 75% 68%)',
+              400: 'hsl(var(--hue) 70% 55%)',
+              500: 'hsl(var(--hue) 65% 45%)',
+              600: 'hsl(var(--hue) 65% 38%)',
+              700: 'hsl(var(--hue) 60% 30%)',
+              800: 'hsl(var(--hue) 55% 23%)',
+              900: 'hsl(var(--hue) 50% 17%)',
+              950: 'hsl(var(--hue) 45% 10%)',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-gray-100 min-h-screen transition-colors">
+
+  {# ===== HEADER ===== #}
+  <header class="bg-primary-600 dark:bg-primary-900 text-white shadow-sm">
+    <div class="max-w-4xl mx-auto px-8 py-5 flex items-center justify-between">
+      <h1 class="text-xl font-bold tracking-brand uppercase">{{ m.brand_name }}</h1>
+      <span class="text-sm opacity-80 tracking-wide">Brand Guidelines</span>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-8 py-12 space-y-16">
+
+    {# ===== 1. COVER ===== #}
+    <section id="cover" class="text-center py-12">
+      <p class="text-sm font-medium text-primary-500 dark:text-primary-400 uppercase tracking-widest mb-3">{{ m.category }}</p>
+      <h2 class="text-3xl md:text-4xl font-bold tracking-brand mb-6">{{ m.brand_name }}</h2>
+      <p class="text-lg text-slate-600 dark:text-gray-400">Brand Guidelines</p>
+      <p class="text-sm text-slate-500 dark:text-gray-500 max-w-2xl mx-auto mt-4 leading-relaxed">
+        このドキュメントは、{{ m.brand_name }}がどのような人格・言葉・造形原理・情報の見せ方を持つかを定義します。
+      </p>
+    </section>
+
+    <hr class="border-slate-200 dark:border-gray-800">
+
+    {# ===== 2. BRAND ESSENCE ===== #}
+    <section id="essence">
+      <div class="section-label">ブランドの核となる存在理由</div>
+      <h2 class="section-heading">Brand Essence</h2>
+      <div class="card">
+        <p class="leading-relaxed whitespace-pre-line">{{ m.purpose_block }}</p>
+      </div>
+      {% if m.brand_keywords | length > 0 %}
+      <div class="mt-6">
+        <h3 class="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-3">ブランドキーワード</h3>
+        <div class="flex flex-wrap gap-2">
+          {% for kw in m.brand_keywords %}
+          <span class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 border border-primary-200 dark:border-primary-800">{{ kw }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </section>
+
+    {# ===== 3. PERSONALITY ===== #}
+    <section id="personality">
+      <div class="section-label">ブランドが人格として振る舞うときの特性</div>
+      <h2 class="section-heading">Personality</h2>
+      <div class="card">
+        <p class="leading-relaxed whitespace-pre-line">{{ m.personality }}</p>
+      </div>
+    </section>
+
+    {# ===== 4. TONE OF VOICE ===== #}
+    <section id="tone">
+      <div class="section-label">言葉の温度・速度・距離感の基準</div>
+      <h2 class="section-heading">Tone of Voice</h2>
+      <div class="card">
+        <p class="leading-relaxed whitespace-pre-line">{{ m.tone_of_voice }}</p>
+      </div>
+    </section>
+
+    {# ===== 5. MESSAGING RULES ===== #}
+    {% if m.verbal_rules | length > 0 %}
+    <section id="messaging">
+      <div class="section-label">語彙・文長・断定の強さ・禁止表現を含むメッセージングルール</div>
+      <h2 class="section-heading">Messaging Rules</h2>
+      <div class="card">
+        <ul class="space-y-3">
+          {% for rule in m.verbal_rules %}
+          <li class="flex items-start gap-3 text-sm leading-relaxed">
+            <span class="mt-1 w-5 h-5 rounded bg-primary-50 dark:bg-primary-950 text-primary-500 dark:text-primary-400 flex items-center justify-center flex-shrink-0 text-xs font-bold">{{ loop.index }}</span>
+            <span>{{ rule }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      {# Message examples from claims #}
+      {% if m.claims_all | length > 0 %}
+      <div class="mt-6">
+        <h3 class="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-3">主張の参考表現</h3>
+        <div class="space-y-2">
+          {% for c in m.claims_all | batch(3) | first %}
+          <div class="card text-sm">
+            <span class="font-medium">{{ c.title }}:</span> {{ c.claim }}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </section>
+    {% endif %}
+
+    {# ===== 6. TYPOGRAPHY ===== #}
+    <section id="typography">
+      <div class="section-label">書体の選定理由と役割別の使い分け</div>
+      <h2 class="section-heading">Typography</h2>
+      <div class="card mb-4">
+        <h3 class="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-3">設計思想</h3>
+        <p class="text-sm leading-relaxed whitespace-pre-line">{{ m.typography_rationale }}</p>
+      </div>
+      <div class="card">
+        <h3 class="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-4">役割別の適用</h3>
+        <div class="space-y-4">
+          <div>
+            <p class="text-2xl font-bold tracking-brand mb-1">見出し — Heading</p>
+            <p class="text-xs text-slate-500 dark:text-gray-400">太字・広めのレタースペーシング。ブランドの骨格を担う。</p>
+          </div>
+          <hr class="border-slate-100 dark:border-gray-800">
+          <div>
+            <p class="text-base leading-relaxed mb-1">本文 — Body Text：情報の主軸。読みやすさを最優先とし、行間は広めに設定する。</p>
+            <p class="text-xs text-slate-500 dark:text-gray-400">レギュラーウェイト・広めの行間。読み疲れしないリズムを保つ。</p>
+          </div>
+          <hr class="border-slate-100 dark:border-gray-800">
+          <div>
+            <p class="text-xs text-slate-500 dark:text-gray-400 mb-1">注記・ラベル — Caption / Label</p>
+            <p class="text-xs text-slate-500 dark:text-gray-400">小さくても可読性を保つ。コントラスト比を意識する。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {# ===== 7. COLOR SYSTEM ===== #}
+    <section id="color">
+      <div class="section-label">色の役割・比率・用途の定義</div>
+      <h2 class="section-heading">Color System</h2>
+      <div class="card mb-4">
+        <h3 class="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-3">設計思想</h3>
+        <p class="text-sm leading-relaxed whitespace-pre-line">{{ m.color_rationale }}</p>
+      </div>
+      <div class="card">
+        <h3 class="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-4">パレット（Primary）</h3>
+        <div class="grid grid-cols-5 md:grid-cols-11 gap-1">
+          {% set shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] %}
+          {% for s in shades %}
+          <div>
+            <div class="w-full aspect-square rounded-lg bg-primary-{{ s }}"></div>
+            <p class="text-[10px] text-center mt-1 text-slate-500 dark:text-gray-400">{{ s }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="card mt-4">
+        <h3 class="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-3">色の役割</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-slate-200 dark:border-gray-700">
+                <th scope="col" class="text-left py-2 px-3 text-xs font-medium text-slate-500 dark:text-gray-400 uppercase tracking-wider">役割</th>
+                <th scope="col" class="text-left py-2 px-3 text-xs font-medium text-slate-500 dark:text-gray-400 uppercase tracking-wider">用途</th>
+                <th scope="col" class="text-left py-2 px-3 text-xs font-medium text-slate-500 dark:text-gray-400 uppercase tracking-wider">指針</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-slate-100 dark:border-gray-800">
+                <td class="py-2 px-3">
+                  <span class="inline-block w-3 h-3 rounded bg-primary-500 mr-1 align-middle"></span>
+                  Primary
+                </td>
+                <td class="py-2 px-3">ヘッダー・CTA・アクセントリンク</td>
+                <td class="py-2 px-3">全体の10〜15%</td>
+              </tr>
+              <tr class="border-b border-slate-100 dark:border-gray-800">
+                <td class="py-2 px-3">
+                  <span class="inline-block w-3 h-3 rounded bg-slate-50 border border-slate-200 mr-1 align-middle"></span>
+                  Background
+                </td>
+                <td class="py-2 px-3">ページ背景</td>
+                <td class="py-2 px-3">70〜80%</td>
+              </tr>
+              <tr class="border-b border-slate-100 dark:border-gray-800">
+                <td class="py-2 px-3">
+                  <span class="inline-block w-3 h-3 rounded bg-white border border-slate-200 mr-1 align-middle"></span>
+                  Surface
+                </td>
+                <td class="py-2 px-3">カード・テーブル・セクション背景</td>
+                <td class="py-2 px-3">コンテンツ領域の基調</td>
+              </tr>
+              <tr class="border-b border-slate-100 dark:border-gray-800">
+                <td class="py-2 px-3">
+                  <span class="inline-block w-3 h-3 rounded bg-emerald-500 mr-1 align-middle"></span>
+                  Positive
+                </td>
+                <td class="py-2 px-3">成功・達成状態</td>
+                <td class="py-2 px-3">控えめに、テキストと背景の組合せで</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3">
+                  <span class="inline-block w-3 h-3 rounded bg-rose-400 mr-1 align-middle"></span>
+                  Caution
+                </td>
+                <td class="py-2 px-3">注意・トレードオフ表示</td>
+                <td class="py-2 px-3">rose系。red-500は使わない</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    {# ===== 8. LAYOUT PRINCIPLES ===== #}
+    <section id="layout">
+      <div class="section-label">余白・整列・比較のしやすさによるレイアウト原則</div>
+      <h2 class="section-heading">Layout Principles</h2>
+      <div class="card">
+        <ul class="space-y-3 text-sm leading-relaxed">
+          <li class="flex items-start gap-2">
+            <span class="mt-0.5 text-primary-500 dark:text-primary-400 font-bold">1</span>
+            <span><strong>余白はコンテンツの一部。</strong>日本語は文字密度が高く、十分な余白がなければ読み手が疲弊する。</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-0.5 text-primary-500 dark:text-primary-400 font-bold">2</span>
+            <span><strong>スペーシングは8の倍数を基本。</strong>4px, 8px, 16px, 24px, 32px, 48px, 64px のリズムで揃える。</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-0.5 text-primary-500 dark:text-primary-400 font-bold">3</span>
+            <span><strong>比較は横並び・テーブル・Before/After。</strong>読み手が構造の差を即座に把握できるレイアウトを優先する。</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-0.5 text-primary-500 dark:text-primary-400 font-bold">4</span>
+            <span><strong>アニメーションは最小限。</strong>トランジションは150msのフィードバック程度に留める。</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-0.5 text-primary-500 dark:text-primary-400 font-bold">5</span>
+            <span><strong>カードは角丸 + 控えめなシャドウ。</strong>shadow-lg以上は使わない。border-radius: 0.75rem。</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    {# ===== 9. COMPONENT PRINCIPLES ===== #}
+    <section id="components">
+      <div class="section-label">ブランドに必要なUIコンポーネントの方針</div>
+      <h2 class="section-heading">Component Principles</h2>
+      {% if m.site_structure | length > 0 %}
+      <div class="card mb-4">
+        <h3 class="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-3">サイト構成</h3>
+        <div class="flex flex-wrap gap-2">
+          {% for page in m.site_structure %}
+          <span class="inline-block px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-300">{{ page }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      <div class="card">
+        <h3 class="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-3">推奨コンポーネント</h3>
+        <div class="grid md:grid-cols-2 gap-3 text-sm">
+          <div class="p-3 rounded-lg bg-slate-50 dark:bg-gray-800/50">
+            <p class="font-medium mb-1">Hero</p>
+            <p class="text-xs text-slate-500 dark:text-gray-400">ブランドの第一印象。簡潔な宣言と文脈説明。</p>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-50 dark:bg-gray-800/50">
+            <p class="font-medium mb-1">Claim Card</p>
+            <p class="text-xs text-slate-500 dark:text-gray-400">主張 + proof_type + 根拠を1単位で表示。</p>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-50 dark:bg-gray-800/50">
+            <p class="font-medium mb-1">Comparison Table</p>
+            <p class="text-xs text-slate-500 dark:text-gray-400">構造差を比較するテーブル。優劣ではなく違いを示す。</p>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-50 dark:bg-gray-800/50">
+            <p class="font-medium mb-1">Disclosure Block</p>
+            <p class="text-xs text-slate-500 dark:text-gray-400">開示情報・リスク・注記の構造化表示。</p>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-50 dark:bg-gray-800/50">
+            <p class="font-medium mb-1">Timeline</p>
+            <p class="text-xs text-slate-500 dark:text-gray-400">時間軸に沿った変化や計画の可視化。</p>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-50 dark:bg-gray-800/50">
+            <p class="font-medium mb-1">CTA Block</p>
+            <p class="text-xs text-slate-500 dark:text-gray-400">論理的帰結としての行動提案。「お願い」ではない。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {# ===== 10. TRUST / TRANSPARENCY ===== #}
+    {% if m.transparency_commitments | length > 0 or m.disclosure_items | length > 0 %}
+    <section id="trust">
+      <div class="section-label">信頼構築のための開示・検証可能性の設計</div>
+      <h2 class="section-heading">Trust / Transparency Modules</h2>
+      {% if m.transparency_commitments | length > 0 %}
+      <div class="card mb-4">
+        <h3 class="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-3">コミットメント</h3>
+        <ul class="space-y-2">
+          {% for item in m.transparency_commitments %}
+          <li class="flex items-baseline gap-2 text-sm leading-relaxed">
+            <span class="bullet w-1.5 h-1.5 rounded-full bg-primary-400 dark:bg-primary-500 flex-shrink-0"></span>
+            {{ item }}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      {% if m.disclosure_items | length > 0 %}
+      <div class="card">
+        <h3 class="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-3">開示事項</h3>
+        <ul class="space-y-2">
+          {% for item in m.disclosure_items %}
+          <li class="flex items-baseline gap-2 text-sm leading-relaxed">
+            <span class="bullet w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-gray-600 flex-shrink-0"></span>
+            {{ item }}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </section>
+    {% endif %}
+
+    {# ===== 11. LOGO DIRECTION ===== #}
+    <section id="logo">
+      <div class="section-label">ロゴの概念・方向性・生成候補・禁止事項</div>
+      <h2 class="section-heading">Logo Direction</h2>
+
+      {# Generated SVG Logos #}
+      {% if m.logos | length > 0 %}
+      <div class="card mb-4">
+        <h3 class="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-4">生成されたロゴ候補</h3>
+        <p class="text-xs text-slate-500 dark:text-gray-400 mb-6">ブランド名とキーワードから自動生成された概念レベルのロゴ候補です。最終的なロゴ制作の方向性検討に使用してください。</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {% for logo in m.logos %}
+          <div class="text-center">
+            <div class="bg-slate-50 dark:bg-gray-800/50 rounded-xl p-6 mb-3 flex items-center justify-center min-h-[160px]">
+              {{ logo.svg | safe }}
+            </div>
+            <p class="text-sm font-semibold mb-1">{{ logo.label }}</p>
+            <p class="text-xs text-slate-500 dark:text-gray-400 leading-relaxed">{{ logo.description }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if m.logo_direction_candidates | length > 0 %}
+      <div class="card mb-4">
+        <h3 class="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-3">方向性の候補</h3>
+        <p class="text-xs text-slate-500 dark:text-gray-400 mb-3">以下はロゴの造形に至る前の、概念レベルの方向性です。</p>
+        <div class="space-y-3">
+          {% for dir in m.logo_direction_candidates %}
+          <div class="flex items-start gap-2 text-sm leading-relaxed">
+            <span class="mt-0.5 text-primary-500 dark:text-primary-400 font-bold">{{ loop.index }}</span>
+            <span>{{ dir }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      {% if m.logo_donts | length > 0 %}
+      <div class="card">
+        <h3 class="text-xs font-semibold text-rose-400 dark:text-rose-300 uppercase tracking-wider mb-3">禁止事項</h3>
+        <ul class="space-y-2">
+          {% for dont in m.logo_donts %}
+          <li class="flex items-start gap-2 text-sm leading-relaxed">
+            <span class="text-rose-400 dark:text-rose-300 mt-0.5">✕</span>
+            {{ dont }}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </section>
+
+    {# ===== 12. VISUAL KEYWORDS ===== #}
+    {% if m.visual_keywords | length > 0 %}
+    <section id="visual">
+      <div class="section-label">ビジュアルの方向性を示すキーワード</div>
+      <h2 class="section-heading">Visual Keywords</h2>
+      <div class="flex flex-wrap gap-3">
+        {% for vk in m.visual_keywords %}
+        <span class="inline-block px-4 py-2 text-sm font-medium rounded-xl bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 border border-primary-200 dark:border-primary-800">{{ vk }}</span>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    {# ===== 13. DO / DON'T ===== #}
+    <section id="do-dont">
+      <div class="section-label">ブランド運用時の基本原則</div>
+      <h2 class="section-heading">Do / Don't</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="card">
+          <h3 class="text-sm font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-3">Do</h3>
+          <ul class="space-y-2 text-sm leading-relaxed">
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 mt-0.5">○</span>
+              <span>主張には必ず根拠（proof_type）を添える</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 mt-0.5">○</span>
+              <span>制約やトレードオフを明示する</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 mt-0.5">○</span>
+              <span>比較は構造の違いで示す</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 mt-0.5">○</span>
+              <span>余白を十分にとり、読み疲れしにくくする</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 mt-0.5">○</span>
+              <span>開示情報を検証可能な形で提供する</span>
+            </li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 class="text-sm font-semibold text-rose-400 dark:text-rose-300 uppercase tracking-wider mb-3">Don't</h3>
+          <ul class="space-y-2 text-sm leading-relaxed">
+            <li class="flex items-start gap-2">
+              <span class="text-rose-400 mt-0.5">✕</span>
+              <span>根拠のない美辞麗句で装飾する</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-rose-400 mt-0.5">✕</span>
+              <span>リスクを隠す、または軽視する</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-rose-400 mt-0.5">✕</span>
+              <span>競合を誹謗する（構造差で示す）</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-rose-400 mt-0.5">✕</span>
+              <span>過剰なアニメーションや装飾を使う</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-rose-400 mt-0.5">✕</span>
+              <span>「信頼」「想い」を裏付けなしに使う</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    {# ===== 14. EXAMPLE UI BLOCKS ===== #}
+    <section id="examples">
+      <div class="section-label">実装可能なUIブロックの参考パターン</div>
+      <h2 class="section-heading">Example UI Blocks</h2>
+
+      {# Hero Example #}
+      <div class="mb-6">
+        <h3 class="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-3">Hero Block</h3>
+        <div class="card bg-primary-600 dark:bg-primary-900 text-white p-8 text-center">
+          <h4 class="text-2xl font-bold tracking-brand mb-3">{{ m.brand_name }}</h4>
+          <p class="text-sm opacity-80 max-w-lg mx-auto">{{ m.purpose_block | truncate(120) }}</p>
+        </div>
+      </div>
+
+      {# Claim Card Example #}
+      {% if m.claims_all | length > 0 %}
+      <div class="mb-6">
+        <h3 class="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-3">Claim Card</h3>
+        {% set sample_claim = m.claims_all[0] %}
+        <div class="card">
+          <div class="flex items-start gap-3">
+            {% if sample_claim.proof_type %}
+            <span class="proof-badge proof-badge--{{ sample_claim.proof_type | lower }}">{{ sample_claim.proof_type }}</span>
+            {% endif %}
+            <div>
+              <h4 class="font-semibold mb-1">{{ sample_claim.title }}</h4>
+              <p class="text-sm leading-relaxed">{{ sample_claim.claim }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      {# CTA Example #}
+      <div>
+        <h3 class="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-3">CTA Block</h3>
+        <div class="card text-center py-8">
+          <p class="text-base font-medium mb-4">{{ m.cta | truncate(80) }}</p>
+          <button class="inline-flex items-center justify-center h-10 px-6 text-base font-medium bg-primary-500 text-white rounded-lg hover:bg-primary-700 transition-colors active:scale-[0.98] cursor-pointer">
+            詳しく見る
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  {# ===== FOOTER ===== #}
+  <footer class="border-t border-slate-200 dark:border-gray-800 mt-16">
+    <div class="max-w-4xl mx-auto px-8 py-8 text-center">
+      <p class="text-xs text-slate-400 dark:text-gray-500">
+        {{ m.brand_name }} Brand Guidelines — Generated by BrandFrame
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function initDarkMode() {
+      const stored = localStorage.getItem('dark-mode');
+      const isDark = stored !== null ? stored === 'true' : false;
+      if (isDark) document.documentElement.classList.add('dark');
+    }
+    initDarkMode();
+  </script>
+</body>
+</html>

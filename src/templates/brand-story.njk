@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ m.brand_name }} — Brand Story</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        fontFamily: {
+          sans: ['"Zen Kaku Gothic New"', 'Ubuntu', 'system-ui', 'sans-serif'],
+          mono: ['Ubuntu Mono', 'ui-monospace', 'monospace'],
+        },
+        extend: {
+          letterSpacing: { brand: '0.08em' },
+          colors: {
+            primary: {
+              50:  'hsl(var(--hue) 90% 96%)',
+              100: 'hsl(var(--hue) 85% 90%)',
+              200: 'hsl(var(--hue) 80% 80%)',
+              300: 'hsl(var(--hue) 75% 68%)',
+              400: 'hsl(var(--hue) 70% 55%)',
+              500: 'hsl(var(--hue) 65% 45%)',
+              600: 'hsl(var(--hue) 65% 38%)',
+              700: 'hsl(var(--hue) 60% 30%)',
+              800: 'hsl(var(--hue) 55% 23%)',
+              900: 'hsl(var(--hue) 50% 17%)',
+              950: 'hsl(var(--hue) 45% 10%)',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-gray-100 min-h-screen transition-colors">
+
+  {# ===== HEADER ===== #}
+  <header class="bg-primary-600 dark:bg-primary-900 text-white shadow-sm">
+    <div class="max-w-4xl mx-auto px-8 py-5 flex items-center justify-between">
+      <h1 class="text-xl font-bold tracking-brand uppercase">{{ m.brand_name }}</h1>
+      <span class="text-sm opacity-80 tracking-wide">Brand Story</span>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-8 py-12 space-y-16">
+
+    {# ===== 1. COVER ===== #}
+    <section id="cover" class="text-center py-12">
+      <p class="text-sm font-medium text-primary-500 dark:text-primary-400 uppercase tracking-widest mb-3">{{ m.category }}</p>
+      <h2 class="text-3xl md:text-4xl font-bold tracking-brand mb-6">{{ m.brand_name }}</h2>
+      <p class="text-slate-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
+        このドキュメントは、{{ m.brand_name }} が何を解決し、何を信じ、何をやらないかを構造的に記述したものです。
+      </p>
+    </section>
+
+    <hr class="border-slate-200 dark:border-gray-800">
+
+    {# ===== 2. CORE IDENTITY ===== #}
+    <section id="core-identity">
+      <div class="section-label">この章の目的：ブランドの存在理由を明確にする</div>
+      <h2 class="section-heading">Core Identity</h2>
+      <div class="card">
+        <p class="leading-relaxed whitespace-pre-line">{{ m.purpose_block }}</p>
+      </div>
+      {% if m.brand_keywords | length > 0 %}
+      <div class="mt-6 flex flex-wrap gap-2">
+        {% for kw in m.brand_keywords %}
+        <span class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 border border-primary-200 dark:border-primary-800">{{ kw }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </section>
+
+    {# ===== 3. AUDIENCE BEFORE / AFTER ===== #}
+    <section id="audience">
+      <div class="section-label">この章の目的：誰のどのような状態を変えるのかを示す</div>
+      <h2 class="section-heading">対象と変化</h2>
+      <div class="card mb-4">
+        <h3 class="text-sm font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-2">対象</h3>
+        <p class="leading-relaxed">{{ m.audience }}</p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="card">
+          <h3 class="text-sm font-semibold text-rose-400 dark:text-rose-300 uppercase tracking-wider mb-2">Before — 現状</h3>
+          <p class="leading-relaxed whitespace-pre-line">{{ m.audience_before_state }}</p>
+        </div>
+        <div class="card">
+          <h3 class="text-sm font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-2">After — 到達点</h3>
+          <p class="leading-relaxed whitespace-pre-line">{{ m.audience_after_state }}</p>
+        </div>
+      </div>
+    </section>
+
+    {# ===== 4. PROBLEM REFRAMING ===== #}
+    {% if m.facts | length > 0 %}
+    <section id="problem-reframing">
+      <div class="section-label">この章の目的：問題の本質を事実ベースで再定義する</div>
+      <h2 class="section-heading">問題の再定義</h2>
+      <div class="space-y-4">
+        {% for c in m.facts %}
+        <div class="card">
+          <div class="flex items-start gap-3">
+            <span class="proof-badge proof-badge--fact">FACT</span>
+            <div>
+              <h3 class="font-semibold mb-1">{{ c.title }}</h3>
+              <p class="text-sm leading-relaxed mb-2">{{ c.claim }}</p>
+              {% if c.evidence %}
+              <p class="text-xs text-slate-500 dark:text-gray-400">根拠: {{ c.evidence }}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    {# ===== 5. CLAIM-BASED NARRATIVE ===== #}
+    {% if m.claims_all | length > 0 %}
+    <section id="claims">
+      <div class="section-label">この章の目的：主張を証拠の種類ごとに整理し、論理構造を明らかにする</div>
+      <h2 class="section-heading">主張と根拠</h2>
+      <div class="space-y-4">
+        {% for c in m.claims_all %}
+        <div class="card">
+          <div class="flex items-start gap-3">
+            {% if c.proof_type %}
+            <span class="proof-badge proof-badge--{{ c.proof_type | lower }}">{{ c.proof_type }}</span>
+            {% else %}
+            <span class="proof-badge proof-badge--unknown">未分類</span>
+            {% endif %}
+            <div class="flex-1">
+              <h3 class="font-semibold mb-1">{{ c.title }}</h3>
+              <p class="text-sm leading-relaxed mb-2">{{ c.claim }}</p>
+              {% if c.evidence %}
+              <div class="text-xs text-slate-500 dark:text-gray-400 border-t border-slate-100 dark:border-gray-800 pt-2 mt-2">
+                <span class="font-medium">根拠:</span> {{ c.evidence }}
+              </div>
+              {% endif %}
+              {% if c.comparison_resistance %}
+              <div class="text-xs text-slate-500 dark:text-gray-400 mt-1">
+                <span class="font-medium">比較耐性:</span> {{ c.comparison_resistance }}
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    {# ===== 6. CONSTRAINTS ===== #}
+    {% if m.constraints | length > 0 %}
+    <section id="constraints">
+      <div class="section-label">この章の目的：やらないことを明示し、ブランドの境界を定義する</div>
+      <h2 class="section-heading">制約 — やらないこと</h2>
+      <p class="text-sm text-slate-500 dark:text-gray-400 mb-4">
+        以下は{{ m.brand_name }}が意図的に行わない選択です。制約はブランドの信頼性を構成する要素として扱います。
+      </p>
+      <div class="space-y-3">
+        {% for c in m.constraints %}
+        <div class="card border-l-0 border-t-0 border-b-0 border-r-0">
+          <div class="flex items-start gap-3">
+            <span class="proof-badge proof-badge--constraint">CONSTRAINT</span>
+            <div>
+              <h3 class="font-semibold mb-1">{{ c.title }}</h3>
+              <p class="text-sm leading-relaxed">{{ c.claim }}</p>
+              {% if c.evidence %}
+              <p class="text-xs text-slate-500 dark:text-gray-400 mt-1">理由: {{ c.evidence }}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    {# ===== 7. TRADE-OFFS ===== #}
+    {% if m.trade_offs | length > 0 %}
+    <section id="trade-offs">
+      <div class="section-label">この章の目的：得るものと失うものを隠さず提示する</div>
+      <h2 class="section-heading">トレードオフとリスク</h2>
+      <p class="text-sm text-slate-500 dark:text-gray-400 mb-4">
+        {{ m.brand_name }}の選択には必ずトレードオフがあります。以下はその正直な開示です。
+      </p>
+      <div class="space-y-3">
+        {% for c in m.trade_offs %}
+        <div class="card">
+          <div class="flex items-start gap-3">
+            <span class="proof-badge proof-badge--trade_off">TRADE_OFF</span>
+            <div>
+              <h3 class="font-semibold mb-1">{{ c.title }}</h3>
+              <p class="text-sm leading-relaxed">{{ c.claim }}</p>
+              {% if c.evidence %}
+              <p class="text-xs text-slate-500 dark:text-gray-400 mt-1">背景: {{ c.evidence }}</p>
+              {% endif %}
+              {% if c.comparison_resistance %}
+              <p class="text-xs text-slate-500 dark:text-gray-400 mt-1">比較観点: {{ c.comparison_resistance }}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    {# ===== 8. TIMELINE ===== #}
+    {% if m.time_axes | length > 0 %}
+    <section id="timeline">
+      <div class="section-label">この章の目的：時間軸で見た変化の方向性を示す</div>
+      <h2 class="section-heading">時間軸と展望</h2>
+      <div class="space-y-3">
+        {% for c in m.time_axes %}
+        <div class="card">
+          <div class="flex items-start gap-3">
+            <span class="proof-badge proof-badge--time_axis">TIME_AXIS</span>
+            <div>
+              <h3 class="font-semibold mb-1">{{ c.title }}</h3>
+              <p class="text-sm leading-relaxed">{{ c.claim }}</p>
+              {% if c.evidence %}
+              <p class="text-xs text-slate-500 dark:text-gray-400 mt-1">{{ c.evidence }}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    {# ===== 9. TESTIMONIES ===== #}
+    {% if m.testimonies | length > 0 %}
+    <section id="testimonies">
+      <div class="section-label">この章の目的：第三者の声による裏付けを示す</div>
+      <h2 class="section-heading">声と証言</h2>
+      <div class="space-y-3">
+        {% for c in m.testimonies %}
+        <div class="card">
+          <div class="flex items-start gap-3">
+            <span class="proof-badge proof-badge--testimony">TESTIMONY</span>
+            <div>
+              <h3 class="font-semibold mb-1">{{ c.title }}</h3>
+              <p class="text-sm leading-relaxed italic">{{ c.claim }}</p>
+              {% if c.evidence %}
+              <p class="text-xs text-slate-500 dark:text-gray-400 mt-1">出典: {{ c.evidence }}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    {# ===== 10. TRANSPARENCY ===== #}
+    {% if m.transparency_commitments | length > 0 or m.disclosure_items | length > 0 %}
+    <section id="transparency">
+      <div class="section-label">この章の目的：信頼は開示と検証可能性によって構築されることを示す</div>
+      <h2 class="section-heading">透明性とコミットメント</h2>
+
+      {% if m.transparency_commitments | length > 0 %}
+      <div class="card mb-4">
+        <h3 class="text-sm font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-3">コミットメント</h3>
+        <ul class="space-y-2">
+          {% for item in m.transparency_commitments %}
+          <li class="flex items-baseline gap-2 text-sm leading-relaxed">
+            <span class="bullet w-1.5 h-1.5 rounded-full bg-primary-400 dark:bg-primary-500 flex-shrink-0"></span>
+            {{ item }}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      {% if m.disclosure_items | length > 0 %}
+      <div class="card">
+        <h3 class="text-sm font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-3">開示事項</h3>
+        <ul class="space-y-2">
+          {% for item in m.disclosure_items %}
+          <li class="flex items-baseline gap-2 text-sm leading-relaxed">
+            <span class="bullet w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-gray-600 flex-shrink-0"></span>
+            {{ item }}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </section>
+    {% endif %}
+
+    {# ===== 11. CASE EXAMPLES ===== #}
+    {% if m.optional_case_examples | length > 0 %}
+    <section id="cases">
+      <div class="section-label">この章の目的：具体例によって主張を補強する</div>
+      <h2 class="section-heading">事例</h2>
+      <div class="space-y-3">
+        {% for ex in m.optional_case_examples %}
+        <div class="card">
+          <p class="text-sm leading-relaxed">{{ ex }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    {# ===== 12. CTA ===== #}
+    <section id="cta" class="text-center py-8">
+      <div class="section-label">この章の目的：ここまでの論理から自然に導かれる行動提案</div>
+      <div class="card max-w-2xl mx-auto">
+        <p class="text-lg font-medium leading-relaxed mb-6">{{ m.cta }}</p>
+        <p class="text-xs text-slate-400 dark:text-gray-500">
+          上記は{{ m.brand_name }}のブランドストーリーに基づく行動提案です。
+        </p>
+      </div>
+    </section>
+
+    {# ===== REFERENCES ===== #}
+    {% if m.optional_references | length > 0 %}
+    <section id="references">
+      <h2 class="section-heading">参考文献・出典</h2>
+      <ul class="text-sm text-slate-500 dark:text-gray-400 space-y-1">
+        {% for ref in m.optional_references %}
+        <li>{{ ref }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endif %}
+
+  </main>
+
+  {# ===== FOOTER ===== #}
+  <footer class="border-t border-slate-200 dark:border-gray-800 mt-16">
+    <div class="max-w-4xl mx-auto px-8 py-8 text-center">
+      <p class="text-xs text-slate-400 dark:text-gray-500">
+        {{ m.brand_name }} Brand Story — Generated by BrandFrame
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function initDarkMode() {
+      const stored = localStorage.getItem('dark-mode');
+      const isDark = stored !== null ? stored === 'true' : false;
+      if (isDark) document.documentElement.classList.add('dark');
+    }
+    initDarkMode();
+  </script>
+</body>
+</html>
