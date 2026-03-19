@@ -1,5 +1,38 @@
+# Dependencies
 node_modules/
+
+# Build output
 dist-build/
 dist/
+
+# Environment & secrets
+.env
+.env.*
+*.pem
+*.key
+credentials*.json
+service-account*.json
+*-key.json
+
+# Claude Code personal settings
+.claude/
+!.claude/launch.json
+
+# Python (if used)
+venv/
+__pycache__/
+*.pyc
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Logs
 *.log
+npm-debug.log*
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
